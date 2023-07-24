@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -11,12 +11,15 @@
     <PackageReference Include="MongoDB.Driver" Version="2.20.0" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Models\" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Models\" />
+    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="Models\EmptyClass.cs" />
+    <Content Update="Properties\launchSettings.json">
+      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Services\" />
   </ItemGroup>
 </Project>
