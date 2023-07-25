@@ -6,12 +6,21 @@ namespace AvaliacaoAtendimentoCSAT5API.Models
 {
 	public class CSAT
 	{
+
+		private int _score;
+
 		[BsonId]
-		[BsonRepresentation(BsonType.ObjectId)]
-		public string? Id { get; set; }
+		[BsonGuidRepresentation(GuidRepresentation.Standard)]
+		public Guid Id { get; set; }
 
 		[BsonElement("score")]
-		public int Score { get; set; }
+		public int Score {
+			get { return _score; }
+			set { if (value >= 1 && value <= 5) {
+					_score = value;
+				}
+			}
+		}
 
 		[BsonElement("comment")]
 		public string? Comment { get; set; }
@@ -29,6 +38,7 @@ namespace AvaliacaoAtendimentoCSAT5API.Models
         public override string ToString()
         {
 			return "{\n\tId: " + Id
+					+ "\n\tScore: " + _score 
 				    + "\n\tComment: " + Comment
 					+ "\n\tFCR: " + ProblemSolved
 					+ "\n\tEmail: " + Email
