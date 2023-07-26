@@ -9,6 +9,8 @@
 
   <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="2.20.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -19,8 +21,5 @@
     <Content Update="Properties\launchSettings.json">
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="Controllers\" />
   </ItemGroup>
 </Project>
