@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using AvaliacaoAtendimentoCSAT5API.Models;
 
 namespace AvaliacaoAtendimentoCSAT5API.Controllers
 {
@@ -16,10 +17,16 @@ namespace AvaliacaoAtendimentoCSAT5API.Controllers
             return "Hello World";
         }
 
-        [HttpGet("{id}")]
-        public void IndexReceive(string id)
+        [HttpPost("/createCSAT")]
+        public IActionResult PostCSAT(CSAT newCSAT)
         {
-            Console.WriteLine(id);
+            if (newCSAT.Score < 1 || newCSAT.Score > 5) {
+                return BadRequest("Invalid CSAT Score");
+            }
+
+            //persist CSAT
+            
+            return Ok(newCSAT.Id);
         }
     }
 }
