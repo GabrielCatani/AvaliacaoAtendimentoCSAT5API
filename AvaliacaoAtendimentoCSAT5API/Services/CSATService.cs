@@ -21,6 +21,17 @@ namespace AvaliacaoAtendimentoCSAT5API.Services
 
 			_csatCollection = mongoDatabase.GetCollection<CSAT>(
 				avaliacaoCSATDatabaseSettings.Value.CSATCollectionName);
+
+			var emailIndex = new CreateIndexModel<CSAT>(Builders<CSAT>
+									.IndexKeys.Ascending("attendantEmail"));
+
+			var email_createdAtIndex = new CreateIndexModel<CSAT>(Builders<CSAT>
+									.IndexKeys.Ascending("attendantEmail")
+											  .Ascending("createdAt"));
+
+			_csatCollection.Indexes.CreateMany(new[] {emailIndex
+													  , email_createdAtIndex});
+
 		}
 
 		//Get All CSATs
