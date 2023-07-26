@@ -23,8 +23,13 @@ namespace AvaliacaoAtendimentoCSAT5API.Services
 				avaliacaoCSATDatabaseSettings.Value.CSATCollectionName);
 		}
 
+		//Get All CSATs
 		public async Task<List<CSAT>> GetAsync() =>
 			await _csatCollection.Find(_ => true).ToListAsync();
+
+		//Insert new CSATs
+		public async Task CreateAsync(CSAT newCSAT) =>
+			await _csatCollection.InsertOneAsync(newCSAT);
 	}
 }
 
