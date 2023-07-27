@@ -13,9 +13,9 @@ namespace AvaliacaoAtendimentoCSAT5API.Controllers
     [Route("api/[controller]")]
     public class CSATController : ControllerBase
     {
-        private readonly CSATService _csatService;
+        private readonly ICSATService _csatService;
 
-        public CSATController(CSATService csatService)
+        public CSATController(ICSATService csatService)
         {
             _csatService = csatService;
         }

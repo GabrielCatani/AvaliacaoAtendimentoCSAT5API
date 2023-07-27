@@ -5,6 +5,8 @@ VisualStudioVersion = 25.0.1706.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaliacaoAtendimentoCSAT5API", "AvaliacaoAtendimentoCSAT5API\AvaliacaoAtendimentoCSAT5API.csproj", "{BE196966-D2E9-4703-8F95-58FAA73D6BA9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaliacaoAtendimentoCSAT5API.Tests", "AvaliacaoAtendimentoCSAT5API.Tests\AvaliacaoAtendimentoCSAT5API.Tests.csproj", "{D652CF27-0A2D-4989-9C01-DDF6D1BCC86E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{BE196966-D2E9-4703-8F95-58FAA73D6BA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE196966-D2E9-4703-8F95-58FAA73D6BA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE196966-D2E9-4703-8F95-58FAA73D6BA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D652CF27-0A2D-4989-9C01-DDF6D1BCC86E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D652CF27-0A2D-4989-9C01-DDF6D1BCC86E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D652CF27-0A2D-4989-9C01-DDF6D1BCC86E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D652CF27-0A2D-4989-9C01-DDF6D1BCC86E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -6,7 +6,7 @@ using MongoDB.Driver;
 
 namespace AvaliacaoAtendimentoCSAT5API.Services
 {
-	public class CSATService
+	public class CSATService : ICSATService
 	{
 		private readonly IMongoCollection<CSAT> _csatCollection;
 
@@ -39,7 +39,7 @@ namespace AvaliacaoAtendimentoCSAT5API.Services
 			await _csatCollection.Find(_ => true).ToListAsync();
 
 		//Insert new CSATs
-		public async Task CreateAsync(CSAT newCSAT) =>
+		virtual public async Task CreateAsync(CSAT newCSAT) =>
 			await _csatCollection.InsertOneAsync(newCSAT);
 	}
 }
