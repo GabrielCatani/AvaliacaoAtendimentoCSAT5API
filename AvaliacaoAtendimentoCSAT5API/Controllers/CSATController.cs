@@ -33,18 +33,22 @@ namespace AvaliacaoAtendimentoCSAT5API.Controllers
                 return BadRequest("Invalid CSAT Score");
             }
 
+
             //persist CSAT
             await _csatService.CreateAsync(newCSAT);
             
             return Ok(newCSAT.Id);
         }
 
-        [HttpGet("getCSAT/{id:length(36)}")]
-        public async Task<ActionResult<CSAT>> GetCSAT(string id)
+        [HttpGet("getCSAT")]
+        public async Task<ActionResult<CSAT>> GetCSAT([FromQuery]string id)
         {
-            Guid id_guid = new Guid(id);
+            if (string.IsNullOrEmpty(id) || id.Length != 36)
+            {
+                return BadRequest();
+            }
 
-            var csat = await _csatService.GetCSATById(id_guid);
+            var csat = await _csatService.GetCSATById(id);
 
             if (csat is null)
             {

@@ -39,9 +39,10 @@ namespace AvaliacaoAtendimentoCSAT5API.Services
 			await _csatCollection.InsertOneAsync(newCSAT);
 
 		//Get CSAT by id
-		public async Task<CSAT?> GetCSATById(Guid id)
+		public async Task<CSAT?> GetCSATById(string id)
 		{
-			var filter = Builders<CSAT>.Filter.Eq("_id", id);
+			var filter = Builders<CSAT>.Filter.Eq("_id", Guid.Parse(id));
+
             return await _csatCollection.Find(filter).FirstOrDefaultAsync();
         }
 			
