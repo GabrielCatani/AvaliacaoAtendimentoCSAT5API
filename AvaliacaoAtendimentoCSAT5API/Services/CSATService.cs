@@ -34,13 +34,17 @@ namespace AvaliacaoAtendimentoCSAT5API.Services
 
 		}
 
-		//Get All CSATs
-		public async Task<List<CSAT>> GetAsync() =>
-			await _csatCollection.Find(_ => true).ToListAsync();
-
 		//Insert new CSATs
-		virtual public async Task CreateAsync(CSAT newCSAT) =>
+		public async Task CreateAsync(CSAT newCSAT) =>
 			await _csatCollection.InsertOneAsync(newCSAT);
-	}
+
+		//Get CSAT by id
+		public async Task<CSAT?> GetCSATById(Guid id)
+		{
+			var filter = Builders<CSAT>.Filter.Eq("_id", id);
+            return await _csatCollection.Find(filter).FirstOrDefaultAsync();
+        }
+			
+    }
 }
 

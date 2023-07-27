@@ -5,8 +5,8 @@ namespace AvaliacaoAtendimentoCSAT5API.Services
 {
 	public interface ICSATService
 	{
-        Task<List<CSAT>> GetAsync();
         Task CreateAsync(CSAT newCSAT);
+        Task<CSAT?> GetCSATById(Guid _id);
     }
 }
 

@@ -38,6 +38,21 @@ namespace AvaliacaoAtendimentoCSAT5API.Controllers
             
             return Ok(newCSAT.Id);
         }
+
+        [HttpGet("getCSAT/{id:length(36)}")]
+        public async Task<ActionResult<CSAT>> GetCSAT(string id)
+        {
+            Guid id_guid = new Guid(id);
+
+            var csat = await _csatService.GetCSATById(id_guid);
+
+            if (csat is null)
+            {
+                return NotFound();
+            }
+
+            return csat;
+        }
     }
 }
 
