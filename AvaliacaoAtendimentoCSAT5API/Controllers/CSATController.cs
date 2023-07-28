@@ -83,7 +83,7 @@ namespace AvaliacaoAtendimentoCSAT5API.Controllers
 
             csat.ProblemSolved = bool.Parse(fcr);
 
-            _csatService.UpdateFCR(id, csat);
+            _csatService.UpdateProblemSolved(id, csat);
 
             return NoContent();
         }

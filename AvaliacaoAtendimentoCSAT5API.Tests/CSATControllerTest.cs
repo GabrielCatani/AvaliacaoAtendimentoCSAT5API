@@ -213,6 +213,78 @@ namespace AvaliacaoAtendimentoCSAT5API.Tests
             Assert.IsTrue(csats.SequenceEqual(returnedList));
 
         }
+
+		[TestMethod]
+		public async Task UpdateFCRofValidCSAT()
+		{
+            CSAT persistedCSAT = new CSAT
+            {
+                Id = new Guid("67c00120-77ed-458b-aeec-e8a46e555fa3"),
+                Score = 5,
+                Comment = "Melhor atendimento do mundo",
+                ProblemSolved = false,
+                Email = "otimo@otimo.com.br",
+                TimeStamp = new DateTime()
+            };
+
+            CSAT updatedCSAT = new CSAT
+            {
+                Id = new Guid("67c00120-77ed-458b-aeec-e8a46e555fa3"),
+                Score = 5,
+                Comment = "Melhor atendimento do mundo",
+                ProblemSolved = true,
+                Email = "otimo@otimo.com.br",
+                TimeStamp = new DateTime()
+            };
+
+            _mockCsatService.Setup(srv
+                => srv.GetCSATById("67c00120-77ed-458b-aeec-e8a46e555fa3"))
+                                    .ReturnsAsync(persistedCSAT);
+                        
+            _mockCsatService.Setup(srv
+                => srv.UpdateProblemSolved(
+                                     "67c00120-77ed-458b-aeec-e8a46e555fa3",
+                                     updatedCSAT)).Returns(Task.CompletedTask);
+
+            var result = _csatController.UpdateFCR(
+                                         "67c00120-77ed-458b-aeec-e8a46e555fa3",
+                                         "true");
+
+            Assert.IsNotNull(result);
+
+            var noContent = result.Result as NoContentResult;
+
+            Assert.AreEqual(204, noContent.StatusCode);
+        }
+
+        [TestMethod]
+        public async Task UpdateFCRNotFoundCSAT()
+        {
+            CSAT updatedCSAT = new CSAT
+            {
+                Id = new Guid("67c00120-77ed-458b-aeec-e8a46e555fa3"),
+                Score = 5,
+                Comment = "Melhor atendimento do mundo",
+                ProblemSolved = true,
+                Email = "otimo@otimo.com.br",
+                TimeStamp = new DateTime()
+            };
+
+            _mockCsatService.Setup(srv
+                => srv.UpdateProblemSolved(
+                                     "67c00120-77ed-458b-aeec-e8a46e555fa3",
+                                     updatedCSAT)).Returns(Task.CompletedTask);
+
+            var result = _csatController.UpdateFCR(
+                                         "67c00120-77ed-458b-aeec-e8a46e555fa3",
+                                         "true");
+
+            Assert.IsNotNull(result);
+
+            var notFound = result.Result as NotFoundResult;
+
+            Assert.AreEqual(404, notFound.StatusCode);
+        }
     }
 }
 
