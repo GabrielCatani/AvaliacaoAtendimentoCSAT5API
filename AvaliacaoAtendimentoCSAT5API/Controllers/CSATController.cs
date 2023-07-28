@@ -105,5 +105,32 @@ namespace AvaliacaoAtendimentoCSAT5API.Controllers
 
             return NoContent();
         }
+
+        [HttpPost("getCSATSummary/{email}")]
+        public async Task<ActionResult<CSATSummaryByEmail>> GetCSATSummary(
+                                                       string email,
+                                                       [FromBody] string date)
+        {
+
+            List<CSAT> filteredCsats = await _csatService
+                                                    .ListAllCSAT("", "", email);
+
+            if (string.IsNullOrEmpty(date))
+            {
+                return NoContent();
+            }
+
+            var parsedDate = DateTime.Parse(date);
+
+            List<CSAT> filteredCsatsByDate = filteredCsats
+                                               .Where(csat =>
+                                                csat.TimeStamp.Date ==
+                                                parsedDate.Date).ToList();
+
+            var summary = _csatService.FormSummary(filteredCsatsByDate);
+
+
+            return Ok(summary);
+        }
     }
 }
