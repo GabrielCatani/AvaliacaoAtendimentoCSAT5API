@@ -115,7 +115,7 @@ namespace AvaliacaoAtendimentoCSAT5API.Controllers
             List<CSAT> filteredCsats = await _csatService
                                                     .ListAllCSAT("", "", email);
 
-            if (string.IsNullOrEmpty(date))
+            if (string.IsNullOrEmpty(date) || filteredCsats == null)
             {
                 return NoContent();
             }
@@ -127,10 +127,10 @@ namespace AvaliacaoAtendimentoCSAT5API.Controllers
                                                 csat.TimeStamp.Date ==
                                                 parsedDate.Date).ToList();
 
-            var summary = _csatService.FormSummary(filteredCsatsByDate);
+            var summary = await _csatService.FormSummary(filteredCsatsByDate);
 
 
-            return Ok(summary.Result.ToString());
+            return Ok(summary.ToString());
         }
     }
 }

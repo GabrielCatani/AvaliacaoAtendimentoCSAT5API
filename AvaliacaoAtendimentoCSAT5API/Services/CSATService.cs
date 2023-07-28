@@ -82,7 +82,7 @@ namespace AvaliacaoAtendimentoCSAT5API.Services
                                                   csat.Id == Guid.Parse(id),
                                                                 updatedCSAT);
 
-        public async Task<CSATSummaryByEmail> FormSummary(List<CSAT> filteredCSATs)
+        public async Task<CSATSummaryByEmail?> FormSummary(List<CSAT> filteredCSATs)
         {
 			CSATSummaryByEmail csatSummary = new CSATSummaryByEmail();
 

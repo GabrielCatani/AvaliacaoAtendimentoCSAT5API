@@ -357,6 +357,59 @@ namespace AvaliacaoAtendimentoCSAT5API.Tests
 
             Assert.AreEqual(404, notFound.StatusCode);
         }
+
+        [TestMethod]
+        public async Task GetSummaryWithValidEmailAndData()
+        {
+            CSATSummaryByEmail summary = new CSATSummaryByEmail
+            {
+                Score = 0.2m,
+                TotalFCR = 5,
+                PositiveFCRCount = 1,
+                NegativeFCRCount = 4
+            };
+
+            List<CSAT> csats = new List<CSAT>
+            {
+                new CSAT { Id = new Guid(),
+                           Score = 3,
+                           Comment = "bora", ProblemSolved = true,
+                           Email = "eu@voce.com.br", TimeStamp = new DateTime()},
+                new CSAT { Id = new Guid(),
+                           Score = 2,
+                           Comment = "Muito ruim", ProblemSolved = false,
+                           Email = "eu@voce.com.br", TimeStamp = new DateTime()},
+                new CSAT { Id = new Guid(),
+                           Score = 2,
+                           Comment = "péssimo", ProblemSolved = false,
+                           Email = "eu@voce.com.br", TimeStamp = new DateTime()},
+                new CSAT { Id = new Guid(),
+                           Score = 3,
+                           Comment = "Beleza", ProblemSolved = true,
+                           Email = "fera@fera.com.br", TimeStamp = new DateTime()},
+                new CSAT { Id = new Guid(),
+                           Score = 5,
+                           Comment = "Bom demaise", ProblemSolved = true,
+                           Email = "eu@voce.com.br", TimeStamp = new DateTime()},
+            };
+
+
+
+            _mockCsatService.Setup(service
+                                    => service.ListAllCSAT("", "", "eu@voce.com.br"))
+                                                .ReturnsAsync(csats);
+
+            _mockCsatService.Setup(service
+                                    => service.FormSummary(csats))
+                                                .ReturnsAsync(summary);
+
+            var result = await _csatController
+                                    .GetCSATSummary("eu@voce.com.br",
+                                                   "2023-07-28T12:40:27.090Z");
+
+            Console.WriteLine(result.ToString());
+            Assert.IsNotNull(result);
+        }
     }
 }
 
