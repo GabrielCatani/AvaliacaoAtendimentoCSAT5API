@@ -35,7 +35,7 @@ namespace AvaliacaoAtendimentoCSAT5API.Controllers
 
 
             //persist CSAT
-            await _csatService.CreateAsync(newCSAT);
+            await _csatService.CreateCSAT(newCSAT);
             
             return Ok(newCSAT.Id);
         }
@@ -55,7 +55,7 @@ namespace AvaliacaoAtendimentoCSAT5API.Controllers
                 return NotFound();
             }
 
-            return csat;
+            return Ok(csat);
         }
     }
 }

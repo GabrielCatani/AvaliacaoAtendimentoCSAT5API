@@ -35,7 +35,7 @@ namespace AvaliacaoAtendimentoCSAT5API.Services
 		}
 
 		//Insert new CSATs
-		public async Task CreateAsync(CSAT newCSAT) =>
+		public async Task CreateCSAT(CSAT newCSAT) =>
 			await _csatCollection.InsertOneAsync(newCSAT);
 
 		//Get CSAT by id

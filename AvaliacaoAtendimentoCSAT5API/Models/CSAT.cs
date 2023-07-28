@@ -45,6 +45,33 @@ namespace AvaliacaoAtendimentoCSAT5API.Models
 					+ "\n\tTimeStamp: " + TimeStamp
 					+ "\n}";
         }
+
+        public override bool Equals(object? obj)
+        {
+			if (obj == null || this.GetType() != obj.GetType())
+			{
+				return false;
+			}
+
+			CSAT other = (CSAT)obj;
+			
+            return Id == other.Id &&
+				   Score == other.Score &&
+				   Comment == other.Comment &&
+				   ProblemSolved == other.ProblemSolved &&
+				   Email == other.Email &&
+				   TimeStamp == other.TimeStamp;
+        }
+
+        public override int GetHashCode()
+        {
+			return HashCode.Combine(Id,
+									Score,
+									Comment,
+									ProblemSolved,
+									Email,
+									TimeStamp);
+        }
     }
 }
 

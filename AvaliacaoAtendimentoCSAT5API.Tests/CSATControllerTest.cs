@@ -10,8 +10,8 @@ namespace AvaliacaoAtendimentoCSAT5API.Tests
 	[TestClass]
 	public class CSATControllerTest
 	{
-		private Mock<ICSATService>? _mockCsatService;
-		private CSATController? _csatController;
+		private Mock<ICSATService> _mockCsatService;
+		private CSATController _csatController;
 
 		[TestInitialize]
 		public void TestInitialize()
@@ -36,12 +36,14 @@ namespace AvaliacaoAtendimentoCSAT5API.Tests
 			Guid expectedGuid = Guid.NewGuid();
 
 			newCSAT.Id = expectedGuid;
-			_mockCsatService.Setup(service => service.CreateAsync(newCSAT));
+			_mockCsatService.Setup(service => service.CreateCSAT(newCSAT));
 
 			var result = _csatController.PostCSAT(newCSAT);
-			var resultStatusCode = result.Result as ObjectResult;
 
 			Assert.IsNotNull(result);
+
+            var resultStatusCode = result.Result as ObjectResult;
+
 			Assert.AreEqual(200, resultStatusCode.StatusCode);
 		}
 
@@ -56,14 +58,72 @@ namespace AvaliacaoAtendimentoCSAT5API.Tests
 				TimeStamp = new DateTime()
 			};
 
-			_mockCsatService.Setup(service => service.CreateAsync(newCSAT));
+			_mockCsatService.Setup(service => service.CreateCSAT(newCSAT));
 
 			var result = _csatController.PostCSAT(newCSAT);
-			var resultStatusCode = result.Result as ObjectResult;
 
 			Assert.IsNotNull(result);
+
+            var resultStatusCode = result.Result as ObjectResult;
+
 			Assert.AreEqual(400, resultStatusCode.StatusCode);
 		}
-	}
+
+		[TestMethod]
+		public async Task GetCSATByIdWhenCSATExists() {
+
+			CSAT persistedCSAT = new CSAT
+            {
+				Id = new Guid("67c00120-77ed-458b-aeec-e8a46e555fa3"),
+                Score = 5,
+                Comment = "Melhor atendimento do mundo",
+                ProblemSolved = false,
+                Email = "otimo@otimo.com.br",
+                TimeStamp = new DateTime()
+            };
+
+			_mockCsatService.Setup(service
+				=> service.GetCSATById("67c00120-77ed-458b-aeec-e8a46e555fa3"))
+				.ReturnsAsync(persistedCSAT);
+
+			var result = await _csatController.GetCSAT(
+										"67c00120-77ed-458b-aeec-e8a46e555fa3");
+            Assert.IsNotNull(result);
+
+			var okResult = result.Result as ObjectResult;
+
+			Assert.AreEqual(200, okResult.StatusCode);
+			Assert.AreEqual(persistedCSAT, okResult.Value);
+        }
+
+        [TestMethod]
+        public async Task GetCSATByIdWhenCSATNotFound()
+        {
+
+            _mockCsatService.Setup(service
+                => service.GetCSATById("52c00120-77ed-458b-aeec-e8a46e555f43"))
+                .ReturnsAsync((CSAT)null);
+
+            var result = await _csatController.GetCSAT(
+                                        "67c00120-77ed-458b-aeec-e8a46e555fa3");
+            Assert.IsNotNull(result);
+
+			var notFoundResult = result.Result as NotFoundResult;
+
+            Assert.AreEqual(404, notFoundResult.StatusCode);
+        }
+
+		[TestMethod]
+		public async Task GetCSATByIdWhenIdIsEmpty()
+		{
+			var result = await _csatController.GetCSAT(" ");
+
+			Assert.IsNotNull(result);
+
+			var badRequest = result.Result as BadRequestResult;
+
+			Assert.AreEqual(400, badRequest.StatusCode);
+		}
+    }
 }
 
