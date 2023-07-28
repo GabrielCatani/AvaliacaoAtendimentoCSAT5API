@@ -46,7 +46,9 @@ namespace AvaliacaoAtendimentoCSAT5API.Services
             return await _csatCollection.Find(filter).FirstOrDefaultAsync();
         }
 
-        public async Task<List<CSAT>> ListAllCSAT(string score, string fcr, string email)
+        public async Task<List<CSAT>> ListAllCSAT(string score,
+												  string fcr,
+												  string email)
         {
 			var builder = Builders<CSAT>.Filter;
 			FilterDefinition<CSAT> filter = builder.Empty;
@@ -58,7 +60,8 @@ namespace AvaliacaoAtendimentoCSAT5API.Services
 
 			if (!string.IsNullOrEmpty(fcr))
 			{
-				filter = filter & builder.Eq(obj => obj.ProblemSolved, bool.Parse(fcr));
+				filter = filter & builder.Eq(obj =>
+											 obj.ProblemSolved, bool.Parse(fcr));
 			}
 
 			if (!string.IsNullOrEmpty(email))
@@ -68,6 +71,11 @@ namespace AvaliacaoAtendimentoCSAT5API.Services
 
 			return await _csatCollection.Find(filter).ToListAsync();
         }
+
+		public async Task UpdateFCR(string id, CSAT updatedCSAT) =>
+			await _csatCollection.ReplaceOneAsync(csat =>
+												  csat.Id == Guid.Parse(id),
+																updatedCSAT);
     }
 }
 
