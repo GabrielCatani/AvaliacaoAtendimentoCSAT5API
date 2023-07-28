@@ -70,7 +70,7 @@ namespace AvaliacaoAtendimentoCSAT5API.Controllers
                 return Ok(csats);
         }
 
-        [HttpPost("updateCSAT")]
+        [HttpPost("updateCSATFCR")]
         public async Task<IActionResult> UpdateFCR([FromQuery] string id,
                                                    [FromBody] string fcr)
         {
@@ -82,6 +82,24 @@ namespace AvaliacaoAtendimentoCSAT5API.Controllers
             }
 
             csat.ProblemSolved = bool.Parse(fcr);
+
+            _csatService.UpdateProblemSolved(id, csat);
+
+            return NoContent();
+        }
+
+        [HttpPost("updateCSATComment")]
+        public async Task<IActionResult> UpdateComment([FromQuery] string id,
+                                                   [FromBody] string comment)
+        {
+            var csat = await _csatService.GetCSATById(id);
+
+            if (csat is null)
+            {
+                return NotFound();
+            }
+
+            csat.Comment = comment;
 
             _csatService.UpdateProblemSolved(id, csat);
 
