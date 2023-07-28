@@ -81,6 +81,28 @@ namespace AvaliacaoAtendimentoCSAT5API.Services
 			await _csatCollection.ReplaceOneAsync(csat =>
                                                   csat.Id == Guid.Parse(id),
                                                                 updatedCSAT);
+
+        public async Task<CSATSummaryByEmail> FormSummary(List<CSAT> filteredCSATs)
+        {
+			CSATSummaryByEmail csatSummary = new CSATSummaryByEmail();
+
+			var totalPromo = filteredCSATs.Where(csat =>
+											csat.Score == 5).Count();
+
+			csatSummary.Score = totalPromo / filteredCSATs.Count();
+
+
+			csatSummary.PositiveFCRCount = filteredCSATs.Where(csat =>
+											csat.ProblemSolved == true).Count();
+
+			csatSummary.NegativeFCRCount = filteredCSATs.Where(csat =>
+											csat.ProblemSolved == false).Count();
+
+			csatSummary.TotalFCR = csatSummary.PositiveFCRCount +
+								   csatSummary.NegativeFCRCount;
+
+            return csatSummary;
+        }
     }
 }
 
