@@ -45,7 +45,29 @@ namespace AvaliacaoAtendimentoCSAT5API.Services
 
             return await _csatCollection.Find(filter).FirstOrDefaultAsync();
         }
-			
+
+        public async Task<List<CSAT>> ListAllCSAT(string score, string fcr, string email)
+        {
+			var builder = Builders<CSAT>.Filter;
+			FilterDefinition<CSAT> filter = builder.Empty;
+
+			if (!string.IsNullOrEmpty(score))
+			{
+				filter = filter & builder.Eq(obj => obj.Score, int.Parse(score));
+			}
+
+			if (!string.IsNullOrEmpty(fcr))
+			{
+				filter = filter & builder.Eq(obj => obj.ProblemSolved, bool.Parse(fcr));
+			}
+
+			if (!string.IsNullOrEmpty(email))
+			{
+				filter = filter & builder.Eq(obj => obj.Email, email);
+			}
+
+			return await _csatCollection.Find(filter).ToListAsync();
+        }
     }
 }
 

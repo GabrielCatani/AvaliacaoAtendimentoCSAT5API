@@ -57,6 +57,17 @@ namespace AvaliacaoAtendimentoCSAT5API.Controllers
 
             return Ok(csat);
         }
+
+        [HttpGet("getAllCSAT")]
+        public async Task<ActionResult<List<CSAT>>> GetAllCSAT([FromQuery]string score="",
+                                                 [FromQuery] string fcr="",
+                                                 [FromQuery] string email="")
+        {
+                List<CSAT> csats = await _csatService.ListAllCSAT(score,
+                                                                  fcr,
+                                                                  email);
+
+                return Ok(csats);
+        }
     }
 }
-

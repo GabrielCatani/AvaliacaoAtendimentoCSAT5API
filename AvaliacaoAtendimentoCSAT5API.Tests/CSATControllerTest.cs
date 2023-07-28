@@ -124,6 +124,95 @@ namespace AvaliacaoAtendimentoCSAT5API.Tests
 
 			Assert.AreEqual(400, badRequest.StatusCode);
 		}
+
+		[TestMethod]
+		public async Task ListAllCSATsPassingNoParameters()
+		{
+			var csats = new List<CSAT>
+			{
+				new CSAT { Id = new Guid(),
+						   Score = 3,
+					       Comment = "bora", ProblemSolved = true,
+						   Email = "eu@voce.com.br", TimeStamp = new DateTime()},
+                new CSAT { Id = new Guid(),
+                           Score = 2,
+                           Comment = "Muito ruim", ProblemSolved = false,
+                           Email = "eu@voce.com.br", TimeStamp = new DateTime()},
+                new CSAT { Id = new Guid(),
+                           Score = 2,
+                           Comment = "péssimo", ProblemSolved = false,
+                           Email = "eu@voce.com.br", TimeStamp = new DateTime()},
+                new CSAT { Id = new Guid(),
+                           Score = 3,
+                           Comment = "Beleza", ProblemSolved = true,
+                           Email = "fera@fera.com.br", TimeStamp = new DateTime()},
+                new CSAT { Id = new Guid(),
+                           Score = 5,
+                           Comment = "Bom demaise", ProblemSolved = true,
+                           Email = "fera@fera.com.br", TimeStamp = new DateTime()},
+            };
+
+			List<CSAT> score2List = csats.GetRange(1, 2);
+
+			_mockCsatService.Setup(service
+						=> service.ListAllCSAT("2", "true", "eu@voce.com.br"))
+						.ReturnsAsync(score2List);
+
+			var result = await _csatController.GetAllCSAT("2",
+													"true",
+													"eu@voce.com.br");
+
+			Assert.IsNotNull(result);
+			var okResult = result.Result as ObjectResult;
+
+			List<CSAT> returnedList = (List<CSAT>)okResult.Value;
+
+			Assert.AreEqual(200, okResult.StatusCode);
+			Assert.IsTrue(score2List.SequenceEqual(returnedList));
+		}
+
+        [TestMethod]
+        public async Task ListAllCSATsPassingScoreFCREmailParams()
+        {
+            var csats = new List<CSAT>
+            {
+                new CSAT { Id = new Guid(),
+                           Score = 3,
+                           Comment = "bora", ProblemSolved = true,
+                           Email = "eu@voce.com.br", TimeStamp = new DateTime()},
+                new CSAT { Id = new Guid(),
+                           Score = 2,
+                           Comment = "Muito ruim", ProblemSolved = false,
+                           Email = "eu@voce.com.br", TimeStamp = new DateTime()},
+                new CSAT { Id = new Guid(),
+                           Score = 2,
+                           Comment = "péssimo", ProblemSolved = false,
+                           Email = "eu@voce.com.br", TimeStamp = new DateTime()},
+                new CSAT { Id = new Guid(),
+                           Score = 3,
+                           Comment = "Beleza", ProblemSolved = true,
+                           Email = "fera@fera.com.br", TimeStamp = new DateTime()},
+                new CSAT { Id = new Guid(),
+                           Score = 5,
+                           Comment = "Bom demaise", ProblemSolved = true,
+                           Email = "fera@fera.com.br", TimeStamp = new DateTime()},
+            };
+
+            _mockCsatService.Setup(service
+                        => service.ListAllCSAT("", "", ""))
+                        .ReturnsAsync(csats);
+
+            var result = await _csatController.GetAllCSAT();
+
+            Assert.IsNotNull(result);
+            var okResult = result.Result as ObjectResult;
+
+            List<CSAT> returnedList = (List<CSAT>)okResult.Value;
+
+            Assert.AreEqual(200, okResult.StatusCode);
+            Assert.IsTrue(csats.SequenceEqual(returnedList));
+
+        }
     }
 }
 
