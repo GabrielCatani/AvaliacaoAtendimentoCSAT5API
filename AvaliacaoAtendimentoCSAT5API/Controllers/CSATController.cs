@@ -69,5 +69,23 @@ namespace AvaliacaoAtendimentoCSAT5API.Controllers
 
                 return Ok(csats);
         }
+
+        [HttpPost("updateCSAT")]
+        public async Task<IActionResult> UpdateFCR([FromQuery] string id,
+                                                   [FromBody] string fcr)
+        {
+            var csat = await _csatService.GetCSATById(id);
+
+            if (csat is null)
+            {
+                return NotFound();
+            }
+
+            csat.ProblemSolved = bool.Parse(fcr);
+
+            _csatService.UpdateFCR(id, csat);
+
+            return NoContent();
+        }
     }
 }
