@@ -89,7 +89,15 @@ namespace AvaliacaoAtendimentoCSAT5API.Services
 			var totalPromo = filteredCSATs.Where(csat =>
 											csat.Score == 5).Count();
 
-			csatSummary.Score = totalPromo / filteredCSATs.Count();
+			if (filteredCSATs.Count() == 0)
+			{
+				csatSummary.Score = 0;
+			}
+			else
+			{
+                csatSummary.Score = totalPromo / filteredCSATs.Count();
+            }
+			
 
 
 			csatSummary.PositiveFCRCount = filteredCSATs.Where(csat =>

@@ -130,7 +130,7 @@ namespace AvaliacaoAtendimentoCSAT5API.Controllers
             var summary = _csatService.FormSummary(filteredCsatsByDate);
 
 
-            return Ok(summary);
+            return Ok(summary.Result.ToString());
         }
     }
 }

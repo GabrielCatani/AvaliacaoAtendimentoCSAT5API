@@ -10,12 +10,12 @@ namespace AvaliacaoAtendimentoCSAT5API.Models
 
         public override string ToString()
         {
-            return "{\n\tScore: " + Score
+            return "{\n\tscore: " + Score
                     + "\n\tfcr: {"
                     + "\n\t\ttotal: " + TotalFCR
                     + "\n\t\tpositives: " + PositiveFCRCount
                     + "\n\t\tnegatives: " + NegativeFCRCount
-                    + "\t}\n"
+                    + "\n}\n"
                     + "\n}";
         }
     }
