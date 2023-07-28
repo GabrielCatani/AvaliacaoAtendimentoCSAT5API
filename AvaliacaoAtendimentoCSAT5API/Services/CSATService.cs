@@ -72,10 +72,15 @@ namespace AvaliacaoAtendimentoCSAT5API.Services
 			return await _csatCollection.Find(filter).ToListAsync();
         }
 
-		public async Task UpdateProblemSolved(string id, CSAT updatedCSAT) =>
+        public async Task UpdateProblemSolved(string id, CSAT updatedCSAT) =>
 			await _csatCollection.ReplaceOneAsync(csat =>
 												  csat.Id == Guid.Parse(id),
 																updatedCSAT);
+
+        public async Task UpdateComment(string id, CSAT updatedCSAT) =>
+			await _csatCollection.ReplaceOneAsync(csat =>
+                                                  csat.Id == Guid.Parse(id),
+                                                                updatedCSAT);
     }
 }
 

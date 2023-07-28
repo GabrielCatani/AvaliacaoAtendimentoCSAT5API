@@ -9,6 +9,7 @@ namespace AvaliacaoAtendimentoCSAT5API.Services
         Task<CSAT?> GetCSATById(string id);
         Task<List<CSAT>> ListAllCSAT(string score, string fcr, string email);
         Task UpdateProblemSolved(string id, CSAT updatedCSAT);
+        Task UpdateComment(string id, CSAT updatedCSAT);
     }
 }
 
