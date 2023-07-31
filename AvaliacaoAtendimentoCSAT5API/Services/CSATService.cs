@@ -84,6 +84,7 @@ namespace AvaliacaoAtendimentoCSAT5API.Services
 
         public async Task<CSATSummaryByEmail?> FormSummary(List<CSAT> filteredCSATs)
         {
+			
 			CSATSummaryByEmail csatSummary = new CSATSummaryByEmail();
 
 			var totalPromo = filteredCSATs.Where(csat =>
@@ -97,17 +98,21 @@ namespace AvaliacaoAtendimentoCSAT5API.Services
 			{
                 csatSummary.Score = totalPromo / filteredCSATs.Count();
             }
-			
 
+			FCR fcr = new FCR
+			{
+				Positive = filteredCSATs.Where(csat =>
+                                            csat.ProblemSolved == true).Count(),
+				Negative = filteredCSATs.Where(csat =>
+                                            csat.ProblemSolved == false).Count(),
+				Total = filteredCSATs.Where(csat =>
+                                            csat.ProblemSolved == true).Count() +
+                        filteredCSATs.Where(csat =>
+                                            csat.ProblemSolved == false).Count(),
 
-			csatSummary.PositiveFCRCount = filteredCSATs.Where(csat =>
-											csat.ProblemSolved == true).Count();
+            };
 
-			csatSummary.NegativeFCRCount = filteredCSATs.Where(csat =>
-											csat.ProblemSolved == false).Count();
-
-			csatSummary.TotalFCR = csatSummary.PositiveFCRCount +
-								   csatSummary.NegativeFCRCount;
+			csatSummary.Fcr = fcr;
 
             return csatSummary;
         }

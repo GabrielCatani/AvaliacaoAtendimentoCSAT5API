@@ -120,7 +120,8 @@ namespace AvaliacaoAtendimentoCSAT5API.Controllers
                 return NoContent();
             }
 
-            var parsedDate = DateTime.Parse(date);
+            DateTime parsedDate;
+            DateTime.TryParse(date, out parsedDate);
 
             List<CSAT> filteredCsatsByDate = filteredCsats
                                                .Where(csat =>
@@ -129,8 +130,7 @@ namespace AvaliacaoAtendimentoCSAT5API.Controllers
 
             var summary = await _csatService.FormSummary(filteredCsatsByDate);
 
-
-            return Ok(summary.ToString());
+            return Ok(summary);
         }
     }
 }

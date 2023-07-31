@@ -358,15 +358,21 @@ namespace AvaliacaoAtendimentoCSAT5API.Tests
             Assert.AreEqual(404, notFound.StatusCode);
         }
 
+
         [TestMethod]
         public async Task GetSummaryWithValidEmailAndData()
         {
+            FCR fcr = new FCR
+            {
+                Total = 3,
+                Positive = 1,
+                Negative = 2
+            };
+
             CSATSummaryByEmail summary = new CSATSummaryByEmail
             {
-                Score = 0.2m,
-                TotalFCR = 5,
-                PositiveFCRCount = 1,
-                NegativeFCRCount = 4
+                Score = 0.33m,
+                Fcr = fcr
             };
 
             List<CSAT> csats = new List<CSAT>
@@ -378,7 +384,8 @@ namespace AvaliacaoAtendimentoCSAT5API.Tests
                 new CSAT { Id = new Guid(),
                            Score = 2,
                            Comment = "Muito ruim", ProblemSolved = false,
-                           Email = "eu@voce.com.br", TimeStamp = new DateTime()},
+                           Email = "eu@voce.com.br", TimeStamp = DateTime
+                                             .Parse("2023-07-28T12:40:27.090Z")},
                 new CSAT { Id = new Guid(),
                            Score = 2,
                            Comment = "péssimo", ProblemSolved = false,
@@ -386,29 +393,35 @@ namespace AvaliacaoAtendimentoCSAT5API.Tests
                 new CSAT { Id = new Guid(),
                            Score = 3,
                            Comment = "Beleza", ProblemSolved = true,
-                           Email = "fera@fera.com.br", TimeStamp = new DateTime()},
+                           Email = "fera@fera.com.br", TimeStamp = DateTime
+                                             .Parse("2023-07-28T12:40:27.090Z")},
                 new CSAT { Id = new Guid(),
                            Score = 5,
                            Comment = "Bom demaise", ProblemSolved = true,
-                           Email = "eu@voce.com.br", TimeStamp = new DateTime()},
+                           Email = "eu@voce.com.br", TimeStamp = DateTime
+                                             .Parse("2023-07-28T12:40:27.090Z")},
             };
-
 
 
             _mockCsatService.Setup(service
                                     => service.ListAllCSAT("", "", "eu@voce.com.br"))
                                                 .ReturnsAsync(csats);
-
+            
             _mockCsatService.Setup(service
                                     => service.FormSummary(csats))
                                                 .ReturnsAsync(summary);
-
+            
             var result = await _csatController
                                     .GetCSATSummary("eu@voce.com.br",
                                                    "2023-07-28T12:40:27.090Z");
-
-            Console.WriteLine(result.ToString());
             Assert.IsNotNull(result);
+
+            var okResult = result.Result as OkObjectResult;
+
+            var returnSummary = okResult.Value as CSATSummaryByEmail;
+
+            Assert.AreEqual(200, okResult.StatusCode);
+            //Assert.IsTrue(Equals(summary, returnSummary));
         }
     }
 }
