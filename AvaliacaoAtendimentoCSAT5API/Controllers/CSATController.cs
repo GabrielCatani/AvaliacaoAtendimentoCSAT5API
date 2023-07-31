@@ -20,12 +20,6 @@ namespace AvaliacaoAtendimentoCSAT5API.Controllers
             _csatService = csatService;
         }
 
-        [HttpGet]
-        public string Index()
-        {
-            return "Hello World";
-        }
-
         [HttpPost("createCSAT")]
         public async Task<IActionResult> PostCSAT(CSAT newCSAT)
         {
